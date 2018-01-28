@@ -9,16 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/weather")
 public class WeatherController {
     @Autowired
-    private DbService service;
+    private DbService dbService;
     @Autowired
     private Mapper mapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "getWeather/{city}")
     public WeatherDto getWeather(@PathVariable String city) throws CityNotFoundException {
-        return mapper.mapToWeatherDto(service.getWeather(city));
+        return mapper.mapToWeatherDto(dbService.getAndSaveWeather(city));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getAllWeatherData")
+    public List<WeatherDto> getAllWeatherData() {
+        return mapper.mapToWeatherDtoList(dbService.getAllWeatherData());
     }
 }
