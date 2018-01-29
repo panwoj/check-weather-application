@@ -2,30 +2,26 @@ package com.pirog.weatherProject.controller;
 
 import com.pirog.weatherProject.domain.WeatherDto;
 import com.pirog.weatherProject.mapper.Mapper;
-import com.pirog.weatherProject.service.DbService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.pirog.weatherProject.service.WeatherService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/v1/weather")
 public class WeatherController {
-    @Autowired
-    private DbService dbService;
-    @Autowired
+    private WeatherService weatherService;
     private Mapper mapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getWeather/{city}")
-    public WeatherDto getWeather(@PathVariable String city) throws CityNotFoundException {
-        return mapper.mapToWeatherDto(dbService.getAndSaveWeather(city));
+    @GetMapping(value = "getWeather/{city}")
+    public WeatherDto getWeather(@PathVariable String city) {
+        return mapper.mapToWeatherDto(weatherService.getAndSaveWeather(city));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getAllWeatherData")
+    @GetMapping(value = "getAllWeatherData")
     public List<WeatherDto> getAllWeatherData() {
-        return mapper.mapToWeatherDtoList(dbService.getAllWeatherData());
+        return mapper.mapToWeatherDtoList(weatherService.getAllWeatherData());
     }
 }
