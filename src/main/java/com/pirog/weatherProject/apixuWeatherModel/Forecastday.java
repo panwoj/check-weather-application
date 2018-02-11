@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
-public class IncomingObject {
-    private Location location;
-    private Current current;
-
+public class Forecastday {
+    private List<ForecastDayElement> forecastDayElementList;
 }

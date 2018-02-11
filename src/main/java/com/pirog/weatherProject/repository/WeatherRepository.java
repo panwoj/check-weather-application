@@ -13,9 +13,9 @@ public interface WeatherRepository extends CrudRepository<Weather, Long> {
     @Override
     Weather save(Weather weather);
 
-    Weather getById(Long Id);
+    List<Weather> getByCountry(String country);
 
-    void deleteById(Long id);
+
 
 
 
