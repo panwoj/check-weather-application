@@ -2,12 +2,10 @@ package com.pirog.weatherProject.service;
 
 import com.pirog.weatherProject.domain.Forecast;
 import com.pirog.weatherProject.domain.Weather;
-import com.pirog.weatherProject.format.TextFormat;
 import com.pirog.weatherProject.repository.WeatherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -31,6 +29,7 @@ public class WeatherService {
         int weathersSize = weathers.size();
         Double averageTemperatureForCountry =  weathers.stream()
                 .map(w -> w.getTemperature())
+                //.mapToDouble().average()
                 .reduce(0.0, (sum, current) -> sum += current);
         return averageTemperatureForCountry/weathersSize;
     }

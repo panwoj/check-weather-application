@@ -10,5 +10,6 @@ import java.util.List;
 @Setter
 @ToString
 public class Forecastday {
-    private List<ForecastDayElement> forecastDayElementList;
+    private String date;
+    private Day day;
 }
