@@ -9,9 +9,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class WeatherProjectApplicationTests {
 
-	//@Autowired
-	//WeatherService weatherService;
-
 	@Test
 	public void contextLoads() {
 		//weatherService.getWeatherFromApixu("Paris");

@@ -7,8 +7,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class IncomingObject {
-    private Location location;
-    private Current current;
-
+public class Condition {
+    private String text;
 }
