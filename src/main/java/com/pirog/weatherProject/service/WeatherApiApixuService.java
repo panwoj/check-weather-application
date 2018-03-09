@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WeatherApiApixuService {
@@ -32,12 +34,16 @@ public class WeatherApiApixuService {
         return buildWeather(weatherObject);
     }
 
-    public Forecast getForecastFromApixu(String city, int days) {
-        URI URL = createUrlGetForecast(city, days);
-        ResponseEntity<ForecastObject> result = REST_TEMPLATE.getForEntity(URL, ForecastObject.class);
-        checkIfErrorStatusCode(result);
-        ForecastObject forecastObject = result.getBody();
-        return buildForecast(forecastObject, days);
+    public List<Forecast> getForecastFromApixu(String city, int days) throws CityNotFoundException {
+        List<Forecast> forecastList = new ArrayList<>();
+        for(int i=0; i < days; i++) {
+            URI URL = createUrlGetForecast(city, i+1);
+            ResponseEntity<ForecastObject> result = REST_TEMPLATE.getForEntity(URL, ForecastObject.class);
+            checkIfErrorStatusCode(result);
+            ForecastObject forecastObject = result.getBody();
+            forecastList.add(buildForecast(forecastObject, i+1));
+        }
+        return forecastList;
     }
 
     private URI createUrlGetWeather(String city) {

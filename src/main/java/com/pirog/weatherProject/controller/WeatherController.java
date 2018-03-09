@@ -23,9 +23,9 @@ public class WeatherController {
         return weatherMapper.mapToWeatherDto(weatherService.getAndSaveWeather(city));
     }
 
-    @GetMapping(value = "getAllWeatherData")
-    public List<WeatherDto> getAllWeatherData() {
-        return weatherMapper.mapToWeatherDtoList(weatherService.getAllWeatherData());
+    @GetMapping(value = "getLast3WeatherData")
+    public List<String> getLast3WeatherData() {
+        return weatherService.getLast3WeatherData();
     }
 
     @GetMapping(value = "getAverageTempForCountry/{country}")
@@ -34,9 +34,15 @@ public class WeatherController {
     }
 
     @GetMapping(value = "getForecast")
-    public ForecastDto getForecast(
+    public List<ForecastDto> getForecast(
             @RequestParam(value="city", required = true) String city,
-            @RequestParam(value="days", defaultValue = "1") int days) {
-        return forecastMapper.mapToForecastDto(weatherService.getForecast(city, days));
+            @RequestParam(value="days", defaultValue = "5") int days) {
+        return forecastMapper.mapToForecastDtoList(weatherService.getForecast(city, days));
     }
+
+    @GetMapping(value = "getAllWeatherData")
+    public List<WeatherDto> getAllWeatherData() {
+        return weatherMapper.mapToWeatherDtoList(weatherService.getAllWeatherData());
+    }
+
 }
