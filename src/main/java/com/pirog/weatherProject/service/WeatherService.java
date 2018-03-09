@@ -16,7 +16,8 @@ public class WeatherService {
     private WeatherApiApixuService weatherApiApixuService;
 
     public List<String> getLast3WeatherData() {
-        return repository.findAllByIdGreaterThan(repository.count() - 3).stream()
+        List<Weather> weatherList = repository.findAllByIdGreaterThan(repository.count() - 3);
+        return weatherList.stream()
                 .map(city -> city.getCity())
                 .collect(Collectors.toList());
     }
@@ -33,10 +34,14 @@ public class WeatherService {
 
     public Double getAverageFor(String country) {
         List<Weather> weathers = repository.getByCountry(country);
-        Double averageTemperatureForCountry =  repository.getByCountry(country).stream()
-                .map(w -> w.getTemperature())
-                .reduce(0.0, (sum, current) -> sum += current);
-        return averageTemperatureForCountry/weathers.size();
+        if (weathers != null && weathers.size() > 0) {
+            Double averageTemperatureForCountry = repository.getByCountry(country).stream()
+                    .map(w -> w.getTemperature())
+                    .reduce(0.0, (sum, current) -> sum += current);
+            return averageTemperatureForCountry / weathers.size();
+        } else {
+            return 0.0;
+        }
     }
 
     public List<Forecast> getForecast(String city, int days) {
