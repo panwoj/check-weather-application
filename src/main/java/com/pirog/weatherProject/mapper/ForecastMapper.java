@@ -9,10 +9,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class ForecastMapper {
-    public ForecastDto mapToForecastDto(final Forecast forecast) {
-        return new ForecastDto(forecast.getCity(), forecast.getCountry(), forecast.getMaxtemp_c(),
-                forecast.getMintemp_c(), forecast.getAvgtemp_c(), forecast.getDate(), forecast.getText());
-    }
 
     public List<ForecastDto> mapToForecastDtoList(final List<Forecast> forecastList) {
         return forecastList.stream()

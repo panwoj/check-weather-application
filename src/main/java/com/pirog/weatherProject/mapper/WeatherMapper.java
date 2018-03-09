@@ -9,11 +9,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class WeatherMapper {
-    public Weather mapToWeather(final WeatherDto weatherDto) {
-        return new Weather(weatherDto.getId(), weatherDto.getCity(), weatherDto.getCountry(),
-                weatherDto.getTemperature(), weatherDto.getTemperatureFeelLike(), weatherDto.getLocalTime(),
-                weatherDto.getLastUpdate());
-    }
 
     public WeatherDto mapToWeatherDto(final Weather weather) {
         return new WeatherDto(weather.getId(), weather.getCity(), weather.getCountry(),
