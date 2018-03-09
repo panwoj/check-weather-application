@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -14,8 +15,10 @@ public class WeatherService {
     private WeatherRepository repository;
     private WeatherApiApixuService weatherApiApixuService;
 
-    public List<Weather> getAllWeatherData() {
-        return repository.findAll();
+    public List<String> getLast3WeatherData() {
+        return repository.findAllByIdGreaterThan(repository.count() - 3).stream()
+                .map(city -> city.getCity())
+                .collect(Collectors.toList());
     }
 
     public Weather getAndSaveWeather(String city) {
@@ -24,17 +27,19 @@ public class WeatherService {
         return weather;
     }
 
-    public Double getAverageFor(String country) {
-        List<Weather> weathers = repository.getByCountry(country);
-        int weathersSize = weathers.size();
-        Double averageTemperatureForCountry =  weathers.stream()
-                .map(w -> w.getTemperature())
-                //.mapToDouble().average()
-                .reduce(0.0, (sum, current) -> sum += current);
-        return averageTemperatureForCountry/weathersSize;
+    public List<Weather> getAllWeatherData() {
+        return repository.findAll();
     }
 
-    public Forecast getForecast(String city, int days) {
+    public Double getAverageFor(String country) {
+        List<Weather> weathers = repository.getByCountry(country);
+        Double averageTemperatureForCountry =  repository.getByCountry(country).stream()
+                .map(w -> w.getTemperature())
+                .reduce(0.0, (sum, current) -> sum += current);
+        return averageTemperatureForCountry/weathers.size();
+    }
+
+    public List<Forecast> getForecast(String city, int days) {
         return weatherApiApixuService.getForecastFromApixu(city, days);
     }
 }

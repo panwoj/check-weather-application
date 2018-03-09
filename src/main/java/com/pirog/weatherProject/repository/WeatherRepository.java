@@ -7,13 +7,17 @@ import java.util.List;
 
 
 public interface WeatherRepository extends CrudRepository<Weather, Long> {
-    @Override
-    List<Weather> findAll();
+
+    List<Weather> findAllByIdGreaterThan(long number);
 
     @Override
     Weather save(Weather weather);
 
     List<Weather> getByCountry(String country);
+
+    @Override
+    List<Weather> findAll();
+
 
 
 
